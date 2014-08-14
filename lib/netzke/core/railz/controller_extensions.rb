@@ -40,8 +40,9 @@ module Netzke
 
       extend ActiveSupport::Concern
 
-      included do
-        send(:before_filter, :set_controller_and_session)
+      def self.included(base)
+        base.before_filter :set_controller_and_session
+        base.skip_before_filter :verify_authenticity_token, only: [:ext]
       end
 
       module ClassMethods
